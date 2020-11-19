@@ -1,0 +1,20 @@
+<ng-container *ngIf = "!auth.isAdmin()">
+    You do not have permission to access this page.
+</ng-container>
+<div *ngIf = "auth.isAdmin()" class = "container">
+    <h3>Order List</h3>
+            <table border="1" class = "table">
+            <thead class = "thead-dark">
+                <th>Id</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Total Price</th>
+            </thead>
+            <tr *ngFor="let order of orders; let i = index">
+                <td>{{orders[i]._id}}</td>
+                <td>{{orders[i].customerUser}}</td>
+                <td>{{prettyItems[i]}}</td>
+                <td>{{orders[i].totalCost}}</td>
+            </tr>
+            </table>
+</div>

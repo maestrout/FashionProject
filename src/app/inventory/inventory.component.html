@@ -1,0 +1,62 @@
+<ng-container *ngIf = "!auth.isAdmin()">
+    You do not have permission to access this page.
+</ng-container>
+<div *ngIf = "auth.isAdmin()" class = "container">
+<h3>Inventory List</h3>
+    <div *ngIf="flag">
+        <table border="1" class = "table">
+        <thead class = "thead-dark">
+            <th>Id</th>
+            <th>Product ID</th>
+            <th>Quantity</th>
+            <th>Delete</th>
+        </thead>
+        <tr *ngFor="let inv of inventory">
+            <td>{{inv._id}}</td>
+            <td>{{inv.product}}</td>
+            <td>{{inv.quantity}}</td>
+            <td align="center">
+                <a (click)="deleteInventory(inv._id)">&#10060;</a>
+            </td>
+        </tr>
+        </table>
+    </div>
+
+    <center>
+        <button type="button" class="btn btn-primary" (click)="storeInventoryDetails()" *ngIf = "!wantsToAdd && !wantsToUpdate">Add Inventory</button>
+        <button type="button" class="btn btn-secondary" (click)="updateInventoryDetails()" *ngIf = "!wantsToAdd && !wantsToUpdate">Update Inventory</button>
+    </center>
+<div class = "form-group" *ngIf = "wantsToAdd">
+    <form [formGroup]="inventoryRef" (ngSubmit)="storeInventoryDetails()">
+        <label>Inventory Id</label>
+        <input type="text" formControlName="_id" required/><br/>
+        <label>Product Name</label>
+        <select formControlName="product" required>
+            <option *ngFor="let product of products" [value]="product._id">
+              {{product.name}}
+            </option>
+        </select>
+        <label>Product Quantity</label>
+        <input type="text" formControlName="quantity" required/><br/>
+        <button [disabled]="!inventoryRef.valid" class="btn btn-primary"
+        type="submit">Add Inventory</button>
+    </form>
+</div>
+<br/>
+<div class = "form-group" *ngIf = "wantsToUpdate">
+    <form [formGroup]="inventoryUpdateRef" (ngSubmit)="updateInventoryDetails()">
+        <label>Inventory Id</label>
+        <input type="text" formControlName="_id" required/><br/>
+        <label>Product Name</label>
+        <select formControlName="product" required>
+            <option *ngFor="let product of products" [value]="product._id">
+              {{product.name}}
+            </option>
+        </select>
+        <label>Product Quantity</label>
+        <input type="text" formControlName="quantity" required/><br/>
+        <button [disabled]="!inventoryUpdateRef.valid" class="btn btn-secondary"
+        type="submit">Update Inventory</button>
+    </form>
+</div>
+</div>

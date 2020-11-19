@@ -1,0 +1,78 @@
+<ng-container *ngIf = "!auth.isAdmin()">
+    You do not have access to this page.
+</ng-container>
+<div *ngIf = "auth.isAdmin()" class = "container">
+<h3>Product List</h3>
+    <div *ngIf="flag">
+        <table border="1" class = "table">
+        <thead class = "thead-dark">
+            <th>Id</th>
+            <th>Name</th>
+            <th>Details</th>
+            <th>Type</th>
+            <th>Image</th>
+            <th>Price</th>
+            <th>Delete</th>
+        </thead>
+        <tr *ngFor="let product of products">
+            <td>{{product._id}}</td>
+            <td>{{product.name}}</td>
+            <td>{{product.details}}</td>
+            <td>{{product.type}}</td>
+            <td>
+                <img src="{{product.image}}" width="250" height="250">
+            </td>
+            <td>{{product.price}}</td>
+            <td align="center">
+                <a (click)="deleteProduct(product._id)">&#10060;</a>
+            </td>
+        </tr>
+        </table>
+    </div>
+    <center>
+    <button type="button" class="btn btn-primary" (click)="storeProductDetails()" *ngIf = "!wantsToAdd && !wantsToUpdate">Add Product</button>
+    <button type="button" class="btn btn-secondary" (click)="updateProductDetails()" *ngIf = "!wantsToAdd && !wantsToUpdate">Update Product</button>
+    </center>
+
+<div class = "form-group" *ngIf = "wantsToAdd">
+    <form [formGroup]="productRef" (ngSubmit)="storeProductDetails()">
+        <label>Product Id</label>
+        <input type="text" formControlName="_id" required/><br/>
+        <label>Product Name</label>
+        <input type="text" formControlName="name" required/><br/>
+        <label>Product Details</label>
+        <input type="text" formControlName="details" required/><br/>
+        <label>Product Type</label>
+        <input type="text" formControlName="type" required/><br/>
+        <label>Product Image URL</label>
+        <input type="text" formControlName="image" required/><br/>
+        <label>Product Price</label>
+        <input type="text" formControlName="price" required/><br/>
+        <button [disabled]="!productRef.valid" class="btn btn-primary"
+        type="submit">Add Product</button>
+    </form>
+</div>
+<br/>
+<div class = "form-group" *ngIf = "wantsToUpdate">
+    <form [formGroup]="productUpdateRef" (ngSubmit)="updateProductDetails()">
+        <label>Product Id</label>
+        <select formControlName="_id" required>
+            <option *ngFor="let product of products" [value]="product._id">
+              {{product._id}}
+            </option>
+        </select><br/>
+        <label>Product Name</label>
+        <input type="text" formControlName="name" required/><br/>
+        <label>Product Details</label>
+        <input type="text" formControlName="details" required/><br/>
+        <label>Product Type</label>
+        <input type="text" formControlName="type" required/><br/>
+        <label>Product Image URL</label>
+        <input type="text" formControlName="image" required/><br/>
+        <label>Product Price</label>
+        <input type="text" formControlName="price" required/><br/>
+        <button [disabled]="!productUpdateRef.valid" class="btn btn-secondary"
+        type="submit">Update Product</button>
+    </form>
+</div>
+</div>

@@ -1,0 +1,38 @@
+<ng-container *ngIf = "auth.isAdmin()">
+    Create a user account for the ability to have a cart.
+</ng-container>
+
+<div *ngIf = "!auth.isAdmin()" class = "container">
+<h3>Your Cart</h3>
+<table border="1" *ngIf = "isLoaded" class = "table">
+    <thead class = "thead-dark">
+        <th>Option</th>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Photo</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Sub Total</th>
+    </thead>
+    <tr *ngFor="let item of items">
+        <td align="center">
+            <a (click)="remove(item.product._id)">&#10060;</a>
+        </td>
+        <td>{{item.product._id}}</td>
+        <td>{{item.product.name}}</td>
+        <td>
+            <img src="{{item.product.image}}" width="250" height="250">
+        </td>
+        <td>{{item.product.price}}</td>
+        <td>{{item.quantity}}</td>
+        <td>{{item.product.price * item.quantity}}</td>
+    </tr>
+    <tr>
+        <td colspan="6" align="right">Total</td>
+        <td>{{total}}</td>
+    </tr>
+</table>
+
+<input type="button" class = "btn btn-primary" value="Check Out" *ngIf = "!checkedOut" (click)="checkOut()"/>
+{{errorMessage}}
+</div>

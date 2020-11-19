@@ -1,0 +1,6 @@
+<ng-container *ngIf = "auth.isAdmin()">
+    This is an Admin account. You are able to create/delete products, add/delete inventory, and delete users. 
+</ng-container>
+<ng-container *ngIf = "!auth.isAdmin()">
+    This is a User account. You are able to browse products, add/remove them from your cart, and checkout.
+</ng-container>

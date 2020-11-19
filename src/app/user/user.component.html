@@ -1,0 +1,27 @@
+<ng-container *ngIf = "!auth.isAdmin()">
+    You do not have access to this page.
+</ng-container>
+<ng-container *ngIf = "auth.isAdmin()">
+    <div *ngIf="flag" class = "container">
+        <h3>List of Users</h3>
+        <table border="1" class = "table">
+        <thead class = "thead-dark">
+            <th>Email</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Role</th>
+            <th>Delete User</th>
+        </thead>
+        <tr *ngFor="let user of users">
+            <td>{{user.email}}</td>
+            <td>{{user.username}}</td>
+            <td>{{user.password}}</td>
+            <td>{{user.role}}</td>
+            <td align="center" *ngIf = "auth.getUsername() != user.username">
+                <a (click)="deleteUser(user._id)">&#10060;</a>
+            </td>
+        </tr>
+        </table>
+    </div>
+<br/>
+</ng-container>

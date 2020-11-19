@@ -1,0 +1,44 @@
+<main role="main">
+  <ng-container *ngIf = "auth.isAdmin()">
+    Please create a user account if you would like to browse products.
+  </ng-container>
+  <ng-container *ngIf = "!auth.isAdmin()">
+    <div class="album py-5 bg-light">
+      <div class="container">
+  
+        <div class="row">
+          <ng-container *ngIf = "isLoaded">
+          <ng-container *ngFor = "let inv of inventory; let i = index">
+          <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+              <img src = "{{products[i].image}}" class="bd-placeholder-img card-img-top" width="100%" height="225" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"/>
+              <div class="card-body">
+                  <h4>{{products[i].name}}</h4>
+                <p class="card-text">{{products[i].details}}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <ng-container *ngIf = "inventory[i].quantity != 0">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-outline-secondary" [routerLink]="['/cart', { id:products[i]._id }]">Add to Cart</button>
+                  </div>
+                  </ng-container>
+                  <ng-container *ngIf = "inventory[i].quantity == 0">
+                    <div class="alert alert-danger" role="alert">
+                        Sold Out!
+                      </div>
+                  </ng-container>
+                  <small class="text-muted">${{products[i].price}}</small>
+                </div>
+              </div>
+            </div>
+        </div>
+          </ng-container>
+          </ng-container>
+  
+
+
+          
+        </div>
+      </div>
+    </div>
+    </ng-container>
+  </main>
